@@ -61,7 +61,7 @@ class DataSource(val dsp: DataSourceParams)
     val eventsRDD: RDD[Event] = PEventStore.find(
       appName = dsp.appName,
       entityType = Some("user"),
-      eventNames = Some(List("view", "buy")),
+      eventNames = Some(List("view", "buy", "basket", "like", "share")),
       // targetEntityType is optional field of an event.
       targetEntityType = Some(Some("item")))(sc)
       .cache()
@@ -100,11 +100,65 @@ class DataSource(val dsp: DataSourceParams)
         }
       }
 
+    val basketEventsRDD: RDD[BasketEvent] = eventsRDD
+      .filter { event => event.event == "basket" }
+      .map { event =>
+        try {
+          BasketEvent(
+            user = event.entityId,
+            item = event.targetEntityId.get,
+            t = event.eventTime.getMillis
+          )
+        } catch {
+          case e: Exception =>
+            logger.error(s"Cannot convert ${event} to BasketEvent." +
+              s" Exception: ${e}.")
+            throw e
+        }
+      }
+
+    val likeEventsRDD: RDD[LikeEvent] = eventsRDD
+      .filter { event => event.event == "like" }
+      .map { event =>
+        try {
+          LikeEvent(
+            user = event.entityId,
+            item = event.targetEntityId.get,
+            t = event.eventTime.getMillis
+          )
+        } catch {
+          case e: Exception =>
+            logger.error(s"Cannot convert ${event} to LikeEvent." +
+              s" Exception: ${e}.")
+            throw e
+        }
+      }
+
+    val shareEventsRDD: RDD[ShareEvent] = eventsRDD
+      .filter { event => event.event == "share" }
+      .map { event =>
+        try {
+          ShareEvent(
+            user = event.entityId,
+            item = event.targetEntityId.get,
+            t = event.eventTime.getMillis
+          )
+        } catch {
+          case e: Exception =>
+            logger.error(s"Cannot convert ${event} to ShareEvent." +
+              s" Exception: ${e}.")
+            throw e
+        }
+      }           
+
     new TrainingData(
       users = usersRDD,
       items = itemsRDD,
       viewEvents = viewEventsRDD,
-      buyEvents = buyEventsRDD
+      buyEvents = buyEventsRDD,
+      basketEvents = basketEventsRDD,
+      likeEvents = likeEventsRDD,
+      shareEvents = shareEventsRDD,
     )
   }
 }
@@ -117,16 +171,28 @@ case class ViewEvent(user: String, item: String, t: Long)
 
 case class BuyEvent(user: String, item: String, t: Long)
 
+case class BasketEvent(user: String, item: String, t: Long)
+
+case class LikeEvent(user: String, item: String, t: Long)
+
+case class ShareEvent(user: String, item: String, t: Long)
+
 class TrainingData(
   val users: RDD[(String, User)],
   val items: RDD[(String, Item)],
   val viewEvents: RDD[ViewEvent],
-  val buyEvents: RDD[BuyEvent]
+  val buyEvents: RDD[BuyEvent],
+  val basketEvents: RDD[BasketEvent],
+  val likeEvents: RDD[LikeEvent],
+  val shareEvents: RDD[ShareEvent]
 ) extends Serializable {
   override def toString = {
     s"users: [${users.count()} (${users.take(2).toList}...)]" +
     s"items: [${items.count()} (${items.take(2).toList}...)]" +
     s"viewEvents: [${viewEvents.count()}] (${viewEvents.take(2).toList}...)" +
-    s"buyEvents: [${buyEvents.count()}] (${buyEvents.take(2).toList}...)"
+    s"buyEvents: [${buyEvents.count()}] (${buyEvents.take(2).toList}...)" +
+    s"basketEvents: [${basketEvents.count()}] (${basketEvents.take(2).toList}...)" +
+    s"likeEvents: [${likeEvents.count()}] (${likeEvents.take(2).toList}...)" +
+    s"shareEvents: [${shareEvents.count()}] (${shareEvents.take(2).toList}...)" +
   }
 }
