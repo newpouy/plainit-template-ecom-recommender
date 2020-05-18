@@ -13,7 +13,7 @@
       "params": {
         "appName": "ecomm",
         "unseenOnly": true,
-        "seenEvents": ["buy", "view"],
+        "seenEvents": ["buy", "view", "basket", "like", "share"],
         "similarEvents": ["view"],
         "rank": 10,
         "numIterations" : 20,
