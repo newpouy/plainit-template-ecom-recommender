@@ -1,0 +1,25 @@
+{
+  "id": "default",
+  "description": "Default settings",
+  "engineFactory": "org.example.ecommercerecommendation.ECommerceRecommendationEngine",
+  "datasource": {
+    "params" : {
+      "appName": "p_ecomm"
+    }
+  },
+  "algorithms": [
+    {
+      "name": "p_ecomm",
+      "params": {
+        "appName": "ecomm",
+        "unseenOnly": true,
+        "seenEvents": ["buy", "view"],
+        "similarEvents": ["view"],
+        "rank": 10,
+        "numIterations" : 20,
+        "lambda": 0.01,
+        "seed": 3
+      }
+    }
+  ]
+}
