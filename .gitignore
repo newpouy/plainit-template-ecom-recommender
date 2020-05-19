@@ -12,3 +12,4 @@ pio.log
 # IntelliJ
 *.iml
 .idea/
+.metals/
