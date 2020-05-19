@@ -1,4 +1,4 @@
-package org.example.ecommercerecommendation
+package com.plainit.sniipong
 
 import org.apache.spark.{SparkConf, SparkContext}
 import org.scalatest.{BeforeAndAfterAll, Suite}

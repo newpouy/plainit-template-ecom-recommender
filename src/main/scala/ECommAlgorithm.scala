@@ -1,4 +1,4 @@
-package org.example.ecommercerecommendation
+package com.plainit.sniipong
 
 import org.apache.predictionio.controller.P2LAlgorithm
 import org.apache.predictionio.controller.Params
@@ -149,7 +149,7 @@ class ECommAlgorithm(val ap: ECommAlgorithmParams)
     itemStringIntMap: BiMap[String, Int],
     data: PreparedData): RDD[MLlibRating] = {
 
-    val mllibRatings = data.viewEvents
+    val mllibRatings = data.viewEvents // rating의 기준은 view 이벤트
       .map { r =>
         // Convert user and item String IDs to Int index for MLlib
         val uindex = userStringIntMap.getOrElse(r.user, -1)

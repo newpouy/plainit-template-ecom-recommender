@@ -1,4 +1,4 @@
-package org.example.ecommercerecommendation
+package com.plainit.sniipong
 
 import org.scalatest.FlatSpec
 import org.scalatest.Matchers

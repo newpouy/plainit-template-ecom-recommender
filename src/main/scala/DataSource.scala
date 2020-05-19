@@ -1,4 +1,4 @@
-package org.example.ecommercerecommendation
+package com.plainit.sniipong
 
 import org.apache.predictionio.controller.PDataSource
 import org.apache.predictionio.controller.EmptyEvaluationInfo

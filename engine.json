@@ -1,7 +1,7 @@
 {
   "id": "default",
   "description": "Default settings",
-  "engineFactory": "org.example.ecommercerecommendation.ECommerceRecommendationEngine",
+  "engineFactory": "com.plainit.sniipong.ECommerceRecommendationEngine",
   "datasource": {
     "params" : {
       "appName": "p_ecomm"
@@ -11,7 +11,7 @@
     {
       "name": "p_ecomm",
       "params": {
-        "appName": "ecomm",
+        "appName": "p_ecomm",
         "unseenOnly": true,
         "seenEvents": ["buy", "view", "basket", "like", "share"],
         "similarEvents": ["view"],

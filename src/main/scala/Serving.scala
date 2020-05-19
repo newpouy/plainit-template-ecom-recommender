@@ -1,4 +1,4 @@
-package org.example.ecommercerecommendation
+package com.plainit.sniipong
 
 import org.apache.predictionio.controller.LServing
 
