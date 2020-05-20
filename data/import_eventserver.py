@@ -64,13 +64,35 @@ def import_events(client):
           target_entity_id=viewed_item
         )
         count += 1
+      # randomly basket some of the viewed items
+      if random.choice([True, False]):
+        print("User", user_id ,"basket item", viewed_item)
+        client.create_event(
+          event="basket",
+          entity_type="user",
+          entity_id=user_id,
+          target_entity_type="item",
+          target_entity_id=viewed_item
+        )
+        count += 1
+      # randomly like some of the viewed items
+      if random.choice([True, False]):
+        print("User", user_id ,"like item", viewed_item)
+        client.create_event(
+          event="like",
+          entity_type="user",
+          entity_id=user_id,
+          target_entity_type="item",
+          target_entity_id=viewed_item
+        )
+        count += 1  
 
   print("%s events are imported." % count)
 
 if __name__ == '__main__':
   parser = argparse.ArgumentParser(
     description="Import sample data for e-commerce recommendation engine")
-  parser.add_argument('--access_key', default='invald_access_key')
+  parser.add_argument('--access_key', default='rL4bDlSmfTj-EPp8HQUrEop2cGzy9kWPgHdfq5mICJPnzPCTveQjybyJn8aLvr5C')
   parser.add_argument('--url', default="http://localhost:7070")
 
   args = parser.parse_args()
