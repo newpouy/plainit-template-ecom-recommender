@@ -158,7 +158,7 @@ class DataSource(val dsp: DataSourceParams)
       buyEvents = buyEventsRDD,
       basketEvents = basketEventsRDD,
       likeEvents = likeEventsRDD,
-      shareEvents = shareEventsRDD,
+      shareEvents = shareEventsRDD
     )
   }
 }
@@ -193,6 +193,6 @@ class TrainingData(
     s"buyEvents: [${buyEvents.count()}] (${buyEvents.take(2).toList}...)" +
     s"basketEvents: [${basketEvents.count()}] (${basketEvents.take(2).toList}...)" +
     s"likeEvents: [${likeEvents.count()}] (${likeEvents.take(2).toList}...)" +
-    s"shareEvents: [${shareEvents.count()}] (${shareEvents.take(2).toList}...)" +
+    s"shareEvents: [${shareEvents.count()}] (${shareEvents.take(2).toList}...)"
   }
 }
